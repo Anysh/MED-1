@@ -21,9 +21,9 @@ if($q && $q->execute()){
                 $wizytaID = $wizyta['ID'];
                 $wizytaDATE = $wizyta['date'];
                 $wizytaTIMESTAMP = strtotime($wizytaDATE);
-                echo "<button>";
+                echo "<a href=\"wizyta.php?id=$wizytaID\>";
                 echo date("j.m.H:i", $wizytaTIMESTAMP);
-                echo "</button>";
+                echo "</a>";
             }
             echo "<br>";
         }else {
