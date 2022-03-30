@@ -1,41 +1,47 @@
-<?php 
+<?php
 
 $db = new mysqli("localhost", "root", "", "med");
+
+
 $q = $db->prepare("SELECT * FROM staff");
-
-if($q && $q->execute()){
-
+if($q && $q->execute()) {
+    
     $result = $q->get_result();
-    while (($staff = $result->fetch_assoc())) {
+    while($staff = $result->fetch_assoc()) {
         
-        $staff_id = $staff['ID'];
-        $Firstname = $staff['Firstname'];
-        $Lastname = $staff['Lastname'];
-        echo "LEKARZ $Firstname $Lastname<br>";
-        $q = $db->prepare("SELECT * FROM Wizyta WHERE staff_id = ?");
-        $q->bind_param("i", $staff_id);
-
-        if($q && $q->execute()){
-            $wizyty  = $q->get_result();
-            while($wizyta = $wizyty->fetch_assoc()) {
-                $wizytaID = $wizyta['ID'];
-                $wizytaDATE = $wizyta['date'];
-                $wizytaTIMESTAMP = strtotime($wizytaDATE);
-                echo "<a href=\"wizyta.php?id=$wizytaID\>";
-                echo date("j.m.H:i", $wizytaTIMESTAMP);
+        $staffId = $staff['id'];
+        $firstName = $staff['firstName'];
+        $lastName = $staff['lastName'];
+        echo "Lekarz $firstName $lastName<br>";
+        
+        $q = $db->prepare("SELECT * FROM appointment WHERE staff_id = ?");
+        
+        $q->bind_param("i", $staffId);
+        if($q && $q->execute()) {
+            
+            $appointments = $q->get_result();
+            while($appointment = $appointments->fetch_assoc()) {
+                
+                $appointmentId = $appointment['id'];
+                $appointmentDate = $appointment['date'];
+                
+                $appointmentTimestamp = strtotime($appointmentDate);
+                
+                echo "<a href=\"appointment.php?id=$appointmentId\" style=\"margin:10px; display:block\">";
+                
+                echo date("j.m H:i", $appointmentTimestamp);
+                
                 echo "</a>";
             }
             echo "<br>";
-        }else {
-            die("Błąd pobierania terminów spotkań");
+        } else {
+            
+            die("Błąd pobierania wizyt z bazy danych");
         }
-
     }
-}else {
-    die("Błąd pobierania listy lekarzy");
+} else {
+    
+    die("Błąd pobierania lekarzy z bazy danych");
 }
-
-
-
 
 ?>
