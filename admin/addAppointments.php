@@ -29,12 +29,12 @@
 </form>
 
 <?php
-if(isset($_REQUEST['staffid']) && isset($_REQUEST['startTime']) && isset($_REQUEST['endTime']) && isset ($_REQUEST['interval'])) {
+if(isset($_REQUEST['staffId']) && isset($_REQUEST['startTime']) && isset($_REQUEST['endTime']) && isset ($_REQUEST['interval'])) {
     $staffId = $_REQUEST['staffId'];
     $startTime = strtotime($_REQUEST['startTime']);
     $endTime = strtotime($_REQUEST['endTime']);
     $interval = $_REQUEST['interval']*60;
-    $q = $db->prepare("INSERT INTO appointment VAlUES (NULL, ?, ?");
+    $q = $db->prepare("INSERT INTO appointment VALUES (NULL, ?, ?)");
     for($i = $startTime; $i < $endTime; $i += $interval) {
         $date = date("Y-m-d H:i:s", $i);
         $q->bind_param("is", $staffId, $date);
