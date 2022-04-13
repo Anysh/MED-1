@@ -1,5 +1,6 @@
-<h1>Umówione wizyty:</h1>
+
 <?php
+require_once("config.php");
 $db = new mysqli("localhost", "root", "", "med");
 $patientId = $_REQUEST['id'];
 $q = $db->prepare("SELECT appointment.date, staff.firstName, staff.lastName FROM patientappointment 
@@ -9,12 +10,17 @@ $q = $db->prepare("SELECT appointment.date, staff.firstName, staff.lastName FROM
 $q->bind_param("i",$patientId);
 $q->execute();
 $appointments = $q->get_result();
+$appointmentList = array();
 while($appointment = $appointments->fetch_assoc()) {
+    array_push($appointmentList, $appointment);
     
-    $staffFirstName = $appointment['firstName'];
+   /* $staffFirstName = $appointment['firstName'];
     $staffLastName = $appointment['lastName'];
     $date = $appointment['date'];
     echo "dr. $staffFirstName $staffLastName $date<br>";
+    */
 }
+$smarty->assign("appointmentList", $appointmentList);
+$smarty->display("appointmentList.tpl");
 
 ?>

@@ -1,29 +1,19 @@
 <?php
-if(isset($_REQUEST['firstName']) && isset($_REQUEST['lastName'])){
+require_once("config.php");
 
-    $db = new mysqli("localhost", "root", "", "med");
+if(isset($_REQUEST['firstName']) && isset($_REQUEST['lastName'])){
     $q = $db->prepare("INSERT INTO patient VALUES (NULL, ?, ?, ? , ?)");
     $q->bind_param("ssss", $_REQUEST['firstName'], $_REQUEST['lastName'],
                             $_REQUEST['phone'], $_REQUEST['pesel']);
     if($q->execute()) {
-        echo "Pacjent dodany do bazy";
+        $smarty->assign("message", "Pajent dodany do systemu");
+        $smarty->assign("retunUrl", "patientLogin.php");
+        $smarty->display("message.tpl");
     }
 
 
 }else {
-    echo '
-    <form action="newPatient.php" method="post">
-    <label for="firstName">Imię:</label>
-    <input type="text" name="firstName" id="firstName">
-    <label for="lastName">Nazwisko:</label>
-    <input type="text" name="lastName" id="lastName">
-    <label for="phone">Numer telefonu:</label>
-    <input type="text" name="phone" id="phone">
-    <label for="pesel">Numer PESEL</label>
-    <input type="text" name="pesel" id="pesel">
-    <input type="submit" value="Zapisz">
-    </form>
-    ';
+    $smarty->display("newPatientForm.tpl");
 }
 
 ?>
