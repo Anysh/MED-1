@@ -14,7 +14,7 @@ if($q && $q->execute()) {
         $firstName = $staff['firstName'];
         $lastName = $staff['lastName'];
         //echo "Lekarz $firstName $lastName<br>";
-        array_push($staffList, $firstName." ".$lastName);
+        //array_push($staffList, $firstName." ".$lastName);
         
         $q = $db->prepare("SELECT * FROM appointment WHERE staff_id = ?");
         
