@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    dziala
-</body>
-</html>
+{include file='head.tpl'}
+
+    {foreach $staffList as $staffMember}
+    <h2>{$staffMember['fiestName']} {$staffMember['lastName']}</h2>
+    {{foreach $staffMember['appointmentList'] as $appointment}
+    <a href="patientLogin.php?id={$appointment['id']}" style="margin: 10px; display:block">{$appointment['date']}</a>
+    
+        {/foreach}}
+    {/foreach}
+
+{include file='foot.tpl'}

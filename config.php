@@ -8,7 +8,7 @@ $smarty->setCompileDir('./templates_c');
 $smarty->setCacheDir('./cache');
 $smarty->setConfigDir('./configs');
 
-$smarty->display("test.tpl");
+//$smarty->display("test.tpl");
 
 
 ?>
