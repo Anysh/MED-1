@@ -12,6 +12,9 @@ class Patient {
         global $db;
         $this->db = $db;
     }
+    function getId () : int {
+        return $this->id;
+    }
     function setFirstName(string $firstName) {
         $this->firstName = $firstName;
     }
@@ -30,7 +33,7 @@ class Patient {
     }
     function save() :bool {
         
-        $q = $this->$db->prepare("INSERT INTO patient VALUES (NULL, ?, ?, ? , ?)");
+        $q = $this->db->prepare("INSERT INTO patient VALUES (NULL, ?, ?, ? , ?)");
         $q->bind_param("ssss", $this->firstName, $this->lastName,
         $this->phone, $this->pesel);
         return $q->execute();
@@ -42,7 +45,7 @@ class Patient {
         $q->bind_param("i", $this->id);
         $q->execute();
         $result = $q->get_result();
-        $row = $result->get_result();
+        $row = $result->fetch_assoc();
         $this->firstName = $row['firstName'];
         $this->lastName = $row['lastName'];
         $this->phone = $row['phone'];
