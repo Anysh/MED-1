@@ -1,4 +1,5 @@
 <?php
+require_once('./model/Patient.class.php');
 $db = new mysqli("localhost", "root", "", "med");
 require_once("./vendor/autoload.php");
 $smarty = new Smarty();
